@@ -7,14 +7,19 @@ import os
 import json
 
 # Load pre-trained model (Faster R-CNN for example)
-model = torchvision.models.detection.fasterrcnn_resnet50_fpn(pretrained=True)
+model = torchvision.models.detection.fasterrcnn_resnet50_fpn(weights='DEFAULT')  # Updated model loading
 model.eval()
 
 # Transformations for input image
-transform = transforms.Compose([transforms.ToTensor()])
+transform = transforms.Compose([
+    transforms.ToPILImage(),
+    transforms.Resize((800, 800)),  # Resize to a fixed size for consistency
+    transforms.ToTensor()
+])
 
 # Function to save JSON
 def save_json(data, output_path):
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
     with open(output_path, 'w') as f:
         json.dump(data, f, indent=4)
 
@@ -26,9 +31,19 @@ def save_cropped_image(image, bbox, output_path):
 
 # Main detection function
 def detect_objects(image_path, output_json_path, output_cropped_dir):
+    # Check if image exists
+    if not os.path.exists(image_path):
+        raise ValueError(f"Image not found at {image_path}. Please check the path.")
+    
+    # Read and process the image
     image = cv2.imread(image_path)
     image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     tensor = transform(image_rgb).unsqueeze(0)
+
+    # Move to device (GPU if available)
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model.to(device)
+    tensor = tensor.to(device)
 
     with torch.no_grad():
         outputs = model(tensor)
@@ -69,11 +84,9 @@ def detect_objects(image_path, output_json_path, output_cropped_dir):
     print("Detection completed. JSON and cropped images saved.")
 
 # Paths
-input_image = "../data/images/test_image.jpg"
-output_json = "../data/output/detections.json"
-output_cropped = "../data/output/sub_objects/"
-
-os.makedirs(output_cropped, exist_ok=True)
+input_image = "object_detection_system\\data\\images\\test_image.jpeg"  # Update this to your image path
+output_json = "object_detection_system\\data\\outputs\\detections.json"
+output_cropped = "object_detection_system\\data\\outputs\\sub_objects"
 
 # Run detection
 detect_objects(input_image, output_json, output_cropped)

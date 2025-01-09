@@ -1,0 +1,32 @@
+[
+    {
+      "object": "Object_1",
+      "id": 1,
+      "bbox": [50, 50, 200, 200],
+      "subobject": [
+        {
+          "object": "SubObject",
+          "id": 1,
+          "bbox": [60, 60, 120, 120]
+        }
+      ]
+    },
+    {
+      "object": "Object_2",
+      "id": 2,
+      "bbox": [220, 30, 400, 180],
+      "subobject": [
+        {
+          "object": "SubObject",
+          "id": 2,
+          "bbox": [230, 40, 270, 80]
+        },
+        {
+          "object": "SubObject",
+          "id": 3,
+          "bbox": [300, 90, 350, 150]
+        }
+      ]
+    }
+  ]
+  
