@@ -1,13 +1,10 @@
-# SAFETYWHAT Assignment - Object Detection System
+## Object Detection System
 
 ## Setup Instructions
 
-1. Clone the repository and navigate to the project folder:
-   ```bash
-   git clone <repo-url>
-   cd SAFETYWHAT-Assignment
 
 
+1.
 # Object Detection and Cropping Tool
 
 This project utilizes a pre-trained deep learning model to perform object detection on images and videos. It dynamically generates cropped images of all detected objects and saves metadata (bounding boxes, labels) in a JSON file.
