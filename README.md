@@ -81,5 +81,8 @@ project/
 │          
 ├──scripts/
 |       |__ object_detection.py     # Main Python script
+|___utils/
+|       |__json_utils.py      # save_json and load_json
 ├── README.md               # Project documentation
 └── requirements.txt        # Python package dependencies
+
